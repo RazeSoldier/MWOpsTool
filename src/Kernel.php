@@ -20,7 +20,6 @@
 
 namespace RazeSoldier\MWOpsTool;
 
-use RazeSoldier\MWOpsTool\Command\BatchDeletePageByPattern;
 use Symfony\Component\Console\Application;
 
 class Kernel
@@ -30,7 +29,27 @@ class Kernel
     public function __construct()
     {
         $this->symfonyApp = new Application();
-        $this->symfonyApp->add(new BatchDeletePageByPattern());
+        $this->doAddCommand();
+    }
+
+    /**
+     * Batch add commands to self::$symfonyApp
+     */
+    private function doAddCommand()
+    {
+        $iterator = new \DirectoryIterator(__DIR__ . '/Command');
+        foreach ($iterator as $subIterator) {
+            if ($subIterator->isDot()) {
+                continue;
+            }
+            $files[] = $subIterator->getBasename('.php');
+        }
+        $classNamePrefix = __NAMESPACE__ . '\\Command\\';
+        foreach ($files as $file) {
+            // There is no check here whether the class instantiable
+            $className = $classNamePrefix . $file;
+            $this->symfonyApp->add(new $className);
+        }
     }
 
     public function run()
