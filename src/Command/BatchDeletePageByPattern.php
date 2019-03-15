@@ -51,7 +51,7 @@ class BatchDeletePageByPattern extends Command
         $this->addArgument('pattern', InputArgument::REQUIRED, 'The pattern of the title to delete the pages');
         $this->addArgument('username', InputArgument::OPTIONAL,
             'Username that will be shown in the log entries. If left empty, deletions will be attributed to the user called Delete page script.');
-        $this->addArgument('result', InputArgument::OPTIONAL, 'Reason for deletions. If empty, no reason will be shown in the logs.');
+        $this->addArgument('reason', InputArgument::OPTIONAL, 'Reason for deletions. If empty, no reason will be shown in the logs.');
         $this->addArgument('namespace_id', InputArgument::OPTIONAL, 'The namespace ID' .
             ' that needs to be retrieved. If not provided, the default is 0', 0);
     }
